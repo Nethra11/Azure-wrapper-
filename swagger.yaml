@@ -1,0 +1,54 @@
+openapi: 3.0.1
+info:
+  title: Chatbot API
+  description: API for handling chatbot prompts and comments
+  version: "1.0.0"
+paths:
+  /chat:
+    post:
+      tags:
+        - Chat
+      summary: Process a chat prompt and comment
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - prompt
+                - comment
+              properties:
+                prompt:
+                  type: string
+                  example: "Tell me a joke"
+                comment:
+                  type: string
+                  example: "Fun request"
+      responses:
+        "200":
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: object
+                    properties:
+                      output:
+                        type: string
+                        example: "Thank you for your query. Here is the answer to: Tell me a joke"
+                      score:
+                        type: number
+                        example: 1.0
+        "401":
+          description: Unauthorized - Invalid token
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
